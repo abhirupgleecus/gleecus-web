@@ -36,6 +36,7 @@ interface TrixAttachmentEvent extends Event {
 
 interface TrixEditorElement extends HTMLElement {
   editor?: TrixEditorController;
+  value?: string;
 }
 
 const DEFAULT_MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
@@ -76,6 +77,7 @@ export default function RichTextEditor({
   );
 
   const inputId = `${generatedId}-input`;
+  const hiddenInputRef = useRef<HTMLInputElement | null>(null);
   const editorRef = useRef<TrixEditorElement | null>(null);
 
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -83,13 +85,16 @@ export default function RichTextEditor({
   const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   useEffect(() => {
+    const hiddenInput = hiddenInputRef.current;
     const editor = editorRef.current;
-    if (!editor || !editor.editor) {
+    if (!editor || !editor.editor || !hiddenInput) {
       return;
     }
 
-    if (editor.innerHTML !== value) {
-      editor.editor.loadHTML(value || "");
+    const nextValue = value || "";
+    if (hiddenInput.value !== nextValue) {
+      hiddenInput.value = nextValue;
+      editor.editor.loadHTML(nextValue);
     }
   }, [value]);
 
@@ -99,8 +104,10 @@ export default function RichTextEditor({
       return;
     }
 
-    const handleChange = () => {
-      onChange(editor.innerHTML);
+    const handleChange = (event: Event) => {
+      const trixEditor = event.target as TrixEditorElement;
+      const nextValue = hiddenInputRef.current?.value ?? trixEditor.value ?? "";
+      onChange(nextValue);
     };
 
     const handleAttachmentAdd = async (event: Event) => {
@@ -143,6 +150,9 @@ export default function RichTextEditor({
         attachment.setAttributes({
           url: uploaded.url,
           href: uploaded.href,
+          filename: uploaded.filename,
+          filesize: uploaded.filesize,
+          contentType: uploaded.content_type,
         });
         attachment.setUploadProgress(100);
       } catch (err) {
@@ -173,7 +183,7 @@ export default function RichTextEditor({
         {label}
       </label>
       <div className={`rich-text-editor-shell ${error ? "rich-text-editor-shell--error" : ""}`}>
-        <input id={inputId} type="hidden" value={value} readOnly />
+        <input ref={hiddenInputRef} id={inputId} type="hidden" defaultValue={value} />
         {createElement("trix-editor", {
           ref: editorRef,
           input: inputId,

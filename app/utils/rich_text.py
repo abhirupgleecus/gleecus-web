@@ -10,6 +10,7 @@ ALLOWED_POST_TAGS = [
     "blockquote",
     "br",
     "code",
+    "del",
     "div",
     "em",
     "figcaption",
@@ -34,7 +35,7 @@ ALLOWED_POST_TAGS = [
 ALLOWED_POST_ATTRIBUTES = {
     "*": ["class"],
     "a": ["href", "title", "target", "rel"],
-    "figure": ["class", "data-trix-attachment", "data-trix-content-type"],
+    "figure": ["class", "data-trix-attachment", "data-trix-content-type", "data-trix-attributes"],
     "figcaption": ["class"],
     "img": ["src", "alt", "width", "height", "loading"],
 }
