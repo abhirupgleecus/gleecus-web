@@ -79,6 +79,7 @@ export default function RichTextEditor({
   const inputId = `${generatedId}-input`;
   const hiddenInputRef = useRef<HTMLInputElement | null>(null);
   const editorRef = useRef<TrixEditorElement | null>(null);
+  const lastEditorValueRef = useRef<string>(value || "");
 
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadingFilename, setUploadingFilename] = useState<string | null>(null);
@@ -92,9 +93,10 @@ export default function RichTextEditor({
     }
 
     const nextValue = value || "";
-    if (hiddenInput.value !== nextValue) {
+    if (nextValue !== lastEditorValueRef.current) {
       hiddenInput.value = nextValue;
       editor.editor.loadHTML(nextValue);
+      lastEditorValueRef.current = nextValue;
     }
   }, [value]);
 
@@ -106,7 +108,8 @@ export default function RichTextEditor({
 
     const handleChange = (event: Event) => {
       const trixEditor = event.target as TrixEditorElement;
-      const nextValue = hiddenInputRef.current?.value ?? trixEditor.value ?? "";
+      const nextValue = trixEditor.value ?? hiddenInputRef.current?.value ?? "";
+      lastEditorValueRef.current = nextValue;
       onChange(nextValue);
     };
 
@@ -188,7 +191,8 @@ export default function RichTextEditor({
           ref: editorRef,
           input: inputId,
           placeholder,
-          className: disabled ? "pointer-events-none opacity-60" : "",
+          className: disabled ? "trix-content pointer-events-none opacity-60" : "trix-content",
+          "aria-disabled": disabled,
         })}
       </div>
 

@@ -52,6 +52,30 @@ a {
   @apply text-neutral-400;
 }
 
+.rich-text-editor-shell trix-editor a {
+  @apply text-primary underline underline-offset-2;
+}
+
+.rich-text-editor-shell trix-editor h1 {
+  @apply text-2xl font-bold text-neutral-900;
+}
+
+.rich-text-editor-shell trix-editor blockquote {
+  @apply my-3 border-l-4 border-neutral-300 pl-3 text-neutral-700;
+}
+
+.rich-text-editor-shell trix-editor ul {
+  @apply list-disc pl-6;
+}
+
+.rich-text-editor-shell trix-editor ol {
+  @apply list-decimal pl-6;
+}
+
+.rich-text-editor-shell trix-editor pre {
+  @apply overflow-x-auto rounded bg-neutral-100 p-2 text-sm;
+}
+
 .rich-text-content {
   @apply text-base leading-relaxed text-neutral-700;
 }

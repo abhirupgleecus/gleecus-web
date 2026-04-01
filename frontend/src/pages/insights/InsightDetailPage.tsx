@@ -108,7 +108,7 @@ export default function InsightDetailPage({ listPath, listLabel }: InsightDetail
               By {authorLabel(post)} | {formatDate(post.created_at)}
             </p>
             {/* Post HTML is sanitized server-side before being persisted. */}
-            <div className="rich-text-content mt-6" dangerouslySetInnerHTML={{ __html: post.body }} />
+            <div className="rich-text-content trix-content mt-6" dangerouslySetInnerHTML={{ __html: post.body }} />
           </article>
         ) : null}
       </div>
