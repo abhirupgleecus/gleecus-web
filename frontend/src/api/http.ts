@@ -1,4 +1,4 @@
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000").replace(/\/+$/, "");
+export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000").replace(/\/+$/, "");
 
 export class ApiError<T = unknown> extends Error {
   status: number;
@@ -19,7 +19,7 @@ interface RequestOptions {
   query?: Record<string, string | number | boolean | undefined>;
 }
 
-function buildUrl(path: string, query?: RequestOptions["query"]): string {
+export function buildApiUrl(path: string, query?: RequestOptions["query"]): string {
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
   const url = new URL(`${API_BASE_URL}${cleanPath}`);
 
@@ -47,7 +47,7 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
     headers.Authorization = `Bearer ${options.token}`;
   }
 
-  const url = buildUrl(path, options.query);
+  const url = buildApiUrl(path, options.query);
 
   let response: Response;
   try {

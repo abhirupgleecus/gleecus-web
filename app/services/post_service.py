@@ -2,6 +2,16 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.post import Post
+from app.utils.rich_text import html_to_plain_text, sanitize_post_html
+
+
+def _sanitize_and_validate_body(body: str) -> str:
+    sanitized_body = sanitize_post_html(body)
+
+    if not html_to_plain_text(sanitized_body):
+        raise ValueError("Body must contain meaningful text.")
+
+    return sanitized_body
 
 
 async def create_post(
@@ -11,9 +21,11 @@ async def create_post(
     post_type,
     author_id,
 ) -> Post:
+    sanitized_body = _sanitize_and_validate_body(body)
+
     post = Post(
         title=title,
-        body=body,
+        body=sanitized_body,
         type=post_type,
         author_id=author_id,
     )
@@ -44,8 +56,10 @@ async def update_post(
     body: str,
     post_type,
 ):
+    sanitized_body = _sanitize_and_validate_body(body)
+
     post.title = title
-    post.body = body
+    post.body = sanitized_body
     post.type = post_type
 
     await session.commit()

@@ -3,13 +3,13 @@ import { useEffect, useMemo, useState } from "react";
 
 import { getPosts } from "../../api/client";
 import { ApiError } from "../../api/http";
-import ErrorBanner from "../../components/ui/ErrorBanner";
 import EmptyState from "../../components/ui/EmptyState";
+import ErrorBanner from "../../components/ui/ErrorBanner";
 import { CardSkeleton } from "../../components/ui/Skeleton";
 import type { Post, PostType } from "../../types/post";
 import { formatDate } from "../../utils/formatDate";
 import { toErrorMessage } from "../../utils/errors";
-import { truncateText } from "../../utils/text";
+import { htmlToExcerpt } from "../../utils/richText";
 
 interface InsightsListingPageProps {
   title: string;
@@ -74,7 +74,7 @@ export default function InsightsListingPage({ title, postType, description }: In
       }
     }
 
-    load();
+    void load();
 
     return () => {
       mounted = false;
@@ -87,7 +87,11 @@ export default function InsightsListingPage({ title, postType, description }: In
         <h1 className="text-3xl font-bold text-neutral-900">{title}</h1>
         <p className="mt-3 max-w-3xl text-base text-neutral-600">{description}</p>
 
-        {error ? <div className="mt-8"><ErrorBanner message={error} /></div> : null}
+        {error ? (
+          <div className="mt-8">
+            <ErrorBanner message={error} />
+          </div>
+        ) : null}
 
         {loading ? (
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -109,13 +113,19 @@ export default function InsightsListingPage({ title, postType, description }: In
         {!loading && !error && posts.length > 0 ? (
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
-              <article key={post.id} className="flex h-full flex-col rounded-lg border border-neutral-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
+              <article
+                key={post.id}
+                className="flex h-full flex-col rounded-lg border border-neutral-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+              >
                 <h2 className="text-xl font-semibold text-neutral-900">{post.title}</h2>
                 <p className="mt-2 text-sm text-neutral-500">
-                  By {authorLabel(post)} · {formatDate(post.created_at)}
+                  By {authorLabel(post)} | {formatDate(post.created_at)}
                 </p>
-                <p className="mt-4 flex-1 text-base text-neutral-600">{truncateText(post.body, 180)}</p>
-                <Link to={`${detailBasePath}/${post.id}`} className="mt-5 inline-flex text-sm font-medium text-primary hover:text-primary-dark">
+                <p className="mt-4 flex-1 text-base text-neutral-600">{htmlToExcerpt(post.body, 180)}</p>
+                <Link
+                  to={`${detailBasePath}/${post.id}`}
+                  className="mt-5 inline-flex text-sm font-medium text-primary hover:text-primary-dark"
+                >
                   Read more
                 </Link>
               </article>

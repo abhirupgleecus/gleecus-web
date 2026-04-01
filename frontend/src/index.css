@@ -19,3 +19,109 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.rich-text-editor-shell {
+  @apply overflow-hidden rounded-lg border border-neutral-200 bg-white transition focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/40;
+}
+
+.rich-text-editor-shell--error {
+  @apply border-danger focus-within:ring-danger/40;
+}
+
+.rich-text-editor-shell .trix-toolbar {
+  @apply border-b border-neutral-200 bg-neutral-50 px-3 py-2;
+}
+
+.rich-text-editor-shell .trix-toolbar .trix-button-group {
+  @apply rounded-md border border-neutral-200 bg-white;
+}
+
+.rich-text-editor-shell .trix-toolbar .trix-button {
+  @apply border-neutral-200 text-neutral-700;
+}
+
+.rich-text-editor-shell .trix-toolbar .trix-button.trix-active {
+  @apply bg-primary/10 text-primary;
+}
+
+.rich-text-editor-shell trix-editor {
+  @apply min-h-[280px] border-0 px-4 py-3 text-base text-neutral-700 focus:outline-none;
+}
+
+.rich-text-editor-shell trix-editor:empty:not(:focus)::before {
+  @apply text-neutral-400;
+}
+
+.rich-text-content {
+  @apply text-base leading-relaxed text-neutral-700;
+}
+
+.rich-text-content p + p {
+  @apply mt-4;
+}
+
+.rich-text-content h1,
+.rich-text-content h2,
+.rich-text-content h3,
+.rich-text-content h4,
+.rich-text-content h5,
+.rich-text-content h6 {
+  @apply mt-8 text-neutral-900;
+}
+
+.rich-text-content h1 {
+  @apply text-3xl font-bold;
+}
+
+.rich-text-content h2 {
+  @apply text-2xl font-semibold;
+}
+
+.rich-text-content h3 {
+  @apply text-xl font-semibold;
+}
+
+.rich-text-content ul,
+.rich-text-content ol {
+  @apply my-4 pl-6;
+}
+
+.rich-text-content ul {
+  @apply list-disc;
+}
+
+.rich-text-content ol {
+  @apply list-decimal;
+}
+
+.rich-text-content li + li {
+  @apply mt-2;
+}
+
+.rich-text-content blockquote {
+  @apply my-6 border-l-4 border-neutral-300 pl-4 text-neutral-600 italic;
+}
+
+.rich-text-content pre {
+  @apply my-6 overflow-x-auto rounded-md bg-neutral-900 p-4 text-sm text-neutral-100;
+}
+
+.rich-text-content code {
+  @apply rounded bg-neutral-100 px-1 py-0.5 text-sm text-neutral-800;
+}
+
+.rich-text-content pre code {
+  @apply bg-transparent p-0 text-inherit;
+}
+
+.rich-text-content a {
+  @apply font-medium text-primary underline underline-offset-2 hover:text-primary-dark;
+}
+
+.rich-text-content figure {
+  @apply my-6;
+}
+
+.rich-text-content img {
+  @apply h-auto max-w-full rounded-md border border-neutral-200;
+}

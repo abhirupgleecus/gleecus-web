@@ -72,7 +72,7 @@ export default function InsightDetailPage({ listPath, listLabel }: InsightDetail
       }
     }
 
-    load();
+    void load();
 
     return () => {
       mounted = false;
@@ -105,9 +105,10 @@ export default function InsightDetailPage({ listPath, listLabel }: InsightDetail
           <article className="mt-8 rounded-lg border border-neutral-200 bg-white p-6 shadow-sm">
             <h1 className="text-3xl font-bold text-neutral-900">{post.title}</h1>
             <p className="mt-2 text-sm text-neutral-500">
-              By {authorLabel(post)} · {formatDate(post.created_at)}
+              By {authorLabel(post)} | {formatDate(post.created_at)}
             </p>
-            <div className="mt-6 whitespace-pre-line text-base text-neutral-600">{post.body}</div>
+            {/* Post HTML is sanitized server-side before being persisted. */}
+            <div className="rich-text-content mt-6" dangerouslySetInnerHTML={{ __html: post.body }} />
           </article>
         ) : null}
       </div>

@@ -7,12 +7,14 @@ import Button from "../../components/ui/Button";
 import EmptyState from "../../components/ui/EmptyState";
 import ErrorBanner from "../../components/ui/ErrorBanner";
 import FieldError from "../../components/ui/FieldError";
+import RichTextEditor from "../../components/ui/RichTextEditor";
 import { TableSkeleton } from "../../components/ui/Skeleton";
 import { useAuth } from "../../context/AuthContext";
 import type { UserRole } from "../../types/auth";
 import type { Post, PostType } from "../../types/post";
 import { formatDate } from "../../utils/formatDate";
 import { toErrorMessage } from "../../utils/errors";
+import { htmlToPlainText } from "../../utils/richText";
 
 interface PublishFormState {
   title: string;
@@ -167,6 +169,8 @@ export default function AdminPublishPage() {
     }
 
     if (!form.body.trim()) {
+      errors.body = "Body is required.";
+    } else if (!htmlToPlainText(form.body)) {
       errors.body = "Body is required.";
     }
 
@@ -336,21 +340,19 @@ export default function AdminPublishPage() {
             </div>
           </div>
 
-          <div>
-            <label htmlFor="body" className="mb-1 block text-sm font-medium text-neutral-700">
-              Body
-            </label>
-            <textarea
-              id="body"
-              rows={8}
-              value={form.body}
-              onChange={(event) => setForm((prev) => ({ ...prev, body: event.target.value }))}
-              className={`w-full rounded-lg border px-4 py-2.5 text-base transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40 ${
-                fieldErrors.body ? "border-danger focus:ring-danger/40" : "border-neutral-200"
-              }`}
-            />
-            <FieldError message={fieldErrors.body} />
-          </div>
+          <RichTextEditor
+            id="body"
+            label="Body"
+            value={form.body}
+            token={token}
+            onChange={(nextBody) => {
+              setForm((prev) => ({ ...prev, body: nextBody }));
+              if (fieldErrors.body) {
+                setFieldErrors((prev) => ({ ...prev, body: "" }));
+              }
+            }}
+            error={fieldErrors.body}
+          />
 
           <div>
             <Button type="submit" loading={submitting}>

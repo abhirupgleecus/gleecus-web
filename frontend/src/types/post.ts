@@ -18,3 +18,11 @@ export interface PostCreateRequest {
   body: string;
   type: PostType;
 }
+
+export interface PostAttachmentUploadResponse {
+  url: string;
+  href: string;
+  filename: string;
+  content_type: string;
+  filesize: number;
+}

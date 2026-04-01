@@ -31,6 +31,13 @@ class Settings(BaseSettings):
     # Recaptcha
     RECAPTCHA_SECRET_KEY: str
 
+    # ImageKit (post attachments)
+    IMAGEKIT_PUBLIC_KEY: str | None = None
+    IMAGEKIT_PRIVATE_KEY: str | None = None
+    IMAGEKIT_URL_ENDPOINT: str | None = None
+    IMAGEKIT_UPLOAD_FOLDER: str = "/gleecus/posts"
+    POST_ATTACHMENT_MAX_BYTES: int = 10 * 1024 * 1024
+
     class Config:
         env_file = ".env"
         extra = "ignore"
