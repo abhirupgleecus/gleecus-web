@@ -3,6 +3,7 @@ import type { ContactCreateRequest, ContactSubmission } from "../types/contact";
 import type { LoginRequest, LoginResponse, SignupRequest } from "../types/auth";
 import type { InvitationCreateRequest, InvitationResponse } from "../types/invitation";
 import type { Post, PostCreateRequest, PostType } from "../types/post";
+import type { ManagedUser } from "../types/user";
 
 export function login(payload: LoginRequest): Promise<LoginResponse> {
   return request<LoginResponse>("/auth/login", {
@@ -55,6 +56,19 @@ export function createInvitation(payload: InvitationCreateRequest, token: string
   return request<InvitationResponse>("/invitations/", {
     method: "POST",
     body: payload,
+    token,
+  });
+}
+
+export function getUsers(token: string): Promise<ManagedUser[]> {
+  return request<ManagedUser[]>("/users/", {
+    token,
+  });
+}
+
+export function deleteUser(userId: string, token: string): Promise<void> {
+  return request<void>(`/users/${userId}`, {
+    method: "DELETE",
     token,
   });
 }

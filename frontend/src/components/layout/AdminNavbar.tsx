@@ -39,6 +39,11 @@ export default function AdminNavbar() {
           <NavLink to="/admin/queries" className={({ isActive }) => navLinkClass(isActive)}>
             Queries
           </NavLink>
+          {user?.role === "superadmin" ? (
+            <NavLink to="/admin/users" className={({ isActive }) => navLinkClass(isActive)}>
+              Users
+            </NavLink>
+          ) : null}
         </div>
 
         <div className="relative ml-auto">

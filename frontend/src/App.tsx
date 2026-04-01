@@ -9,6 +9,7 @@ import AboutMeetTheTeamPage from "./pages/about/AboutMeetTheTeamPage";
 import AboutWhoWeArePage from "./pages/about/AboutWhoWeArePage";
 import AdminPublishPage from "./pages/admin/AdminPublishPage";
 import AdminQueriesPage from "./pages/admin/AdminQueriesPage";
+import AdminUsersPage from "./pages/admin/AdminUsersPage";
 import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 import HomePage from "./pages/HomePage";
@@ -47,6 +48,7 @@ export default function App() {
         <Route element={<AdminLayout />}>
           <Route path="/admin/publish" element={<AdminPublishPage />} />
           <Route path="/admin/queries" element={<AdminQueriesPage />} />
+          <Route path="/admin/users" element={<AdminUsersPage />} />
           <Route path="/admin" element={<Navigate to="/admin/publish" replace />} />
         </Route>
       </Route>
