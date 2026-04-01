@@ -30,11 +30,12 @@ export default function AboutWhoWeArePage() {
         </div>
 
         <div className="rounded-lg border border-neutral-200 bg-white p-6 shadow-sm">
-          <div className="flex h-full min-h-80 items-center justify-center rounded-lg bg-gradient-to-br from-primary/10 via-accent/10 to-neutral-50 p-8">
-            <p className="max-w-sm text-center text-lg font-medium text-neutral-900">
-              Visual Placeholder: team at work, collaboration moments, and innovation workshops.
-            </p>
-          </div>
+          <img
+            src="/images/who-we-are.jpg"
+            alt="Gleecus TechLabs team collaborating"
+            className="h-full min-h-80 w-full rounded-lg object-cover"
+            loading="lazy"
+          />
         </div>
       </div>
     </section>
