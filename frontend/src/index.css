@@ -149,3 +149,15 @@ a {
 .rich-text-content img {
   @apply h-auto max-w-full rounded-md border border-neutral-200;
 }
+
+.rich-text-content figure.attachment {
+  @apply block w-full text-center;
+}
+
+.rich-text-content figure.attachment img {
+  @apply mx-auto;
+}
+
+.rich-text-content .attachment__caption {
+  @apply mt-2 block text-center text-sm text-neutral-500;
+}
