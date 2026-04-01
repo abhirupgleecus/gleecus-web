@@ -5,7 +5,10 @@ from app.core.config import settings
 
 
 def send_invitation_email(to_email: str, token: str):
-    signup_link = f"{settings.FRONTEND_BASE_URL}/signup?token={token}"
+    # FRONTEND_BASE_URL should be a single URL; if a comma-separated value is supplied,
+    # use the first origin so signup links remain valid.
+    frontend_base = settings.FRONTEND_BASE_URL.split(",")[0].strip().rstrip("/")
+    signup_link = f"{frontend_base}/signup?token={token}"
 
     subject = "You're invited!"
     body = f"""

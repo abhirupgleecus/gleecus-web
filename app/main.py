@@ -11,7 +11,7 @@ import_models()
 
 
 def _build_allowed_origins() -> list[str]:
-    raw = settings.FRONTEND_BASE_URL or ""
+    raw = settings.FRONTEND_ALLOWED_ORIGINS or settings.FRONTEND_BASE_URL or ""
     origins = [item.strip().rstrip("/") for item in raw.split(",") if item.strip()]
 
     # Keep local development origins enabled unless explicitly blocked.

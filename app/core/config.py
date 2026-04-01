@@ -21,6 +21,7 @@ class Settings(BaseSettings):
 
     # Frontend
     FRONTEND_BASE_URL: str
+    FRONTEND_ALLOWED_ORIGINS: str | None = None
 
     # Seed
     SEED_SUPERADMIN_EMAIL: str
